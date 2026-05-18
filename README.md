@@ -1,36 +1,189 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bryce Wage Motocross
 
-## Getting Started
+**Live:** <https://bryce-wage-motocross.vercel.app>
+**Admin:** <https://bryce-wage-motocross.vercel.app/admin/login>
 
-First, run the development server:
+Pre-order interest platform for the Bryce Wage Motocross apparel brand. Customers
+browse a small product catalog, add to cart, and "check out" to express interest.
+No real payments are processed — Bryce contacts each customer after the ordering
+window closes to arrange e-transfer or cash and to confirm delivery.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The app runs in **batches** (ordering windows). The owner opens a window from
+`/admin/settings`, customers express interest, the owner closes the window and
+places his wholesale order with the supplier.
+
+---
+
+## Stack
+
+- **Next.js 16** (App Router, TypeScript, Turbopack)
+- **Tailwind CSS v4** (CSS-first config in `app/globals.css`)
+- **Supabase** — Postgres, Storage for product images, RLS-secured public data
+- **Twilio** — SMS notification to Bryce when an order is submitted
+- **iron-session + bcryptjs** — single-password admin auth
+- **React Hook Form + Zod** — form validation (client and server)
+- **Vercel** — hosting, auto-deploys from `main`
+
+## Project layout
+
+```
+app/
+  (public)/                 storefront routes: /, /product/[id], /cart, /checkout, /confirmation/[orderNumber]
+  admin/
+    login/                  unprotected login page
+    (authed)/               protected admin shell — dashboard, products, orders, settings
+  api/
+    orders/                 POST — public submits interest order
+    settings/public/        GET  — public-safe subset of settings
+    admin/                  protected admin APIs (products CRUD, image upload, settings, auth)
+components/
+  ui/                       Button, Input, Pill, Card, QuantityStepper, SizePicker
+  storefront/               header, footer, product card, gallery, add-to-cart form
+  admin/                    settings form, product form, image manager, ordering toggle
+lib/
+  supabase/                 server + browser clients, image URL helper
+  auth.ts                   iron-session + bcrypt
+  cart.ts                   useCart hook (localStorage)
+  currency.ts               cent ↔ CAD formatting
+  sms.ts                    Twilio helper
+  validators.ts             zod schemas + E.164 phone normalizer
+proxy.ts                    Next.js 16 middleware (renamed Proxy) — gates /admin
+supabase/migrations/        SQL migrations (0001_init.sql is current schema)
+scripts/hash-password.ts    CLI to generate ADMIN_PASSWORD_HASH
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## One-time setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Supabase
 
-## Learn More
+A Supabase project (`bryce-wage-motocross`, ref `kmldjzswzrpuvlbbowqe`, region
+`ca-central-1`) is already provisioned and the migration is applied. Get its
+keys from <https://supabase.com/dashboard/project/kmldjzswzrpuvlbbowqe/settings/api>:
 
-To learn more about Next.js, take a look at the following resources:
+- `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
+- Publishable key (`sb_publishable_…`) → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- **service_role** key (click *Reveal*) → `SUPABASE_SERVICE_ROLE_KEY` (NEVER commit or expose to the browser)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To start a fresh project from scratch, run `supabase/migrations/0001_init.sql`
+in the Supabase SQL editor.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Twilio (optional, for SMS notifications)
 
-## Deploy on Vercel
+1. Sign in at <https://console.twilio.com>
+2. Buy a Canadian phone number (E.164 format, e.g. `+12045551234`)
+3. Set on Vercel:
+   - `TWILIO_ACCOUNT_SID`
+   - `TWILIO_AUTH_TOKEN`
+   - `TWILIO_FROM_NUMBER`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If Twilio vars are missing, order submission still succeeds — SMS is best-effort
+and never blocks the customer experience.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. Admin password
+
+The admin section is protected by a single bcrypt hash stored in env. Generate
+it once:
+
+```bash
+npm run hash-password -- "your-strong-password-here"
+```
+
+Copy the output (`$2a$10$…`) into `ADMIN_PASSWORD_HASH`. Also generate a session
+signing secret:
+
+```bash
+openssl rand -base64 48
+```
+
+Paste into `SESSION_SECRET`. **Never** ship a deploy with the placeholder value
+from `.env.example`.
+
+### 4. Environment variables on Vercel
+
+All required env vars (see `.env.example`) must be configured in Vercel
+under **Project Settings → Environment Variables → Production**. To inspect
+or modify:
+
+```bash
+npx vercel env ls production
+npx vercel env add KEY_NAME production
+```
+
+---
+
+## Deploy workflow
+
+The Vercel project is connected to <https://github.com/riley-commits/Bryce-Wage-Motocross>.
+**Every push to `main` auto-deploys to production.**
+
+```bash
+git push origin main
+```
+
+No manual `vercel deploy` needed for normal changes. If env vars change, redeploy
+from the Vercel dashboard (Next.js bakes `NEXT_PUBLIC_*` vars at build time).
+
+---
+
+## Common admin tasks
+
+### Start a new batch
+
+1. Sign in at `/admin/login`
+2. **Settings → Ordering Window**
+   - Set a fresh `Batch label` (e.g. *"Fall 2026 Drop — closes Oct 20"*)
+   - Toggle **Status → Open**
+   - Save
+3. Optionally archive last batch's products (set `Active = false`) and add new
+   ones under **Products → New Product**
+4. Each interest order placed during this window automatically snapshots the
+   current batch label, so the dashboard's per-batch totals stay coherent
+   forever — even after you change the label.
+
+### Close a batch
+
+Settings → **Status → Closed** → Save. The storefront immediately reflects the
+closed state; the cart/checkout flow is locked out at the API level too.
+
+### Run the supplier order
+
+Dashboard shows "Top requested — current batch" with quantities broken down by
+size. Use that to fill out the supplier order. Order history is permanent —
+every order keeps its `batch_label` snapshot.
+
+---
+
+## Domain-level decisions worth knowing
+
+- **Order numbers** (`BWM-XXXX`) come from a Postgres sequence — no collisions
+  under concurrent inserts, zero-padded to 4 digits, automatically rolls past
+  `BWM-9999` to `BWM-10000`.
+- **`settings.owner_phone_e164` is NEVER readable by anon clients.** Public
+  reads use the `public_settings()` SECURITY DEFINER RPC, which returns only
+  safe fields (`ordering_open`, `ordering_window_label`, `etransfer_email`).
+- **Order inserts are double-gated** — both the API route AND the row-level
+  security policy check `settings.ordering_open = true`. Even if the API is
+  bypassed, the DB rejects inserts to a closed window.
+- **Product images** live in a public Supabase Storage bucket
+  (`product-images`). Admin uploads happen via the service role key
+  (server-only), public reads come straight from the CDN URL.
+- **The confirmation page does not display customer name or contact info** —
+  order numbers are sequential and could be guessed, so we only show items,
+  totals, and payment instructions. Customers know it's theirs because they
+  just submitted it.
+- **Fulfillment** is always "Bryce contacts to arrange delivery." No address
+  is collected on the platform — Bryce gathers it during the follow-up call.
+
+---
+
+## Out of scope (won't build without explicit ask)
+
+- Real payment processing (Stripe, etc.)
+- Customer accounts / login
+- Shipping cost calculation
+- Email notifications (SMS only for now)
+- CSV export
+- Discount codes, taxes, promotions
+- Multiple admin users
