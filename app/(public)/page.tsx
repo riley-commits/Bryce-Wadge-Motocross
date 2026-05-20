@@ -48,17 +48,18 @@ export default async function HomePage() {
             priority
             sizes="100vw"
             // Flipped horizontally so the rider sits on the right of the frame,
-            // then nudged 5% further right so he sits cleanly off-center.
-            // The empty 5% on the left is hidden behind the dark-wash gradient.
-            className="object-cover -scale-x-100 translate-x-[5%]"
+            // then nudged 8% further right so he sits cleanly off-center.
+            // The empty 8% on the left is hidden behind the dark-wash gradient.
+            className="object-cover -scale-x-100 translate-x-[8%]"
           />
           {/* Heavier dark wash on the left so the wordmark stays readable
               against any pixel of sky. Tapers to fully transparent on the
               right so the rider reads sharp and uncovered. */}
           <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/60 to-navy/0" />
-          {/* Subtle bottom-up gradient — adds depth and prevents any harsh
-              navy/photo seam at the bottom of the section. */}
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-navy via-navy/60 to-transparent" />
+          {/* Bottom-up gradient is restricted to the LEFT half so the right
+              column stays the photo's natural sky color top-to-bottom — no
+              navy band cutting across the right side of the hero. */}
+          <div className="absolute left-0 bottom-0 w-1/2 h-1/3 bg-gradient-to-tr from-navy via-navy/50 to-transparent" />
         </div>
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-20 sm:py-28 flex flex-col justify-center w-full">
