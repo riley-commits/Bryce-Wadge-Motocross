@@ -60,10 +60,20 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Photo column — contained card, beside the heading on lg+, below on mobile.
-              Source was pre-cropped to remove the Unger banner, so the photo's
-              natural ~16:9 ratio renders with effectively no further cropping. */}
-          <div className="relative aspect-[16/10] lg:aspect-[4/3] rounded-md overflow-hidden ring-1 ring-white/10 shadow-2xl">
+          {/* Photo column — feathered edges so the photo dissolves into the
+              navy section. No frame, no rounded corners, no shadow. The radial
+              mask keeps the rider sharp in the upper-center and fades the
+              rectangle's perimeter to transparent so the entire hero reads as
+              one continuous element. Works identically when stacked on mobile. */}
+          <div
+            className="relative aspect-[16/10] lg:aspect-[4/3]"
+            style={{
+              WebkitMaskImage:
+                "radial-gradient(ellipse 95% 95% at 50% 42%, black 45%, transparent 100%)",
+              maskImage:
+                "radial-gradient(ellipse 95% 95% at 50% 42%, black 45%, transparent 100%)",
+            }}
+          >
             <Image
               src="/hero.jpg"
               alt="Bryce — #86 — Honda CRF, mid-jump"
@@ -72,9 +82,6 @@ export default async function HomePage() {
               sizes="(min-width: 1024px) 560px, 100vw"
               className="object-cover"
             />
-            <span className="absolute bottom-2 right-3 eyebrow text-[10px] text-white/70 tracking-widest pointer-events-none">
-              Bryce · #86
-            </span>
           </div>
         </div>
       </section>
