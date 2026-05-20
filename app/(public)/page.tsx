@@ -47,7 +47,10 @@ export default async function HomePage() {
             fill
             priority
             sizes="100vw"
-            className="object-cover -scale-x-100"
+            // Flipped horizontally so the rider sits on the right of the frame,
+            // then nudged 5% further right so he sits cleanly off-center.
+            // The empty 5% on the left is hidden behind the dark-wash gradient.
+            className="object-cover -scale-x-100 translate-x-[5%]"
           />
           {/* Heavier dark wash on the left so the wordmark stays readable
               against any pixel of sky. Tapers to fully transparent on the
