@@ -162,7 +162,7 @@ export async function POST(req: Request) {
       ? `${siteUrl}/admin/orders/${orderRow.id}`
       : `/admin/orders/${orderRow.id}`;
     const itemCount = data.items.reduce((s, i) => s + i.quantity, 0);
-    const body = `New BWM order ${orderRow.order_number} from ${data.customer_name.trim()} — ${itemCount} items, ${formatCAD(subtotal)}. ${data.payment_method === "etransfer" ? "E-Transfer" : "Cash"}. View: ${adminLink}`;
+    const body = `New BWMT order ${orderRow.order_number} from ${data.customer_name.trim()} — ${itemCount} items, ${formatCAD(subtotal)}. ${data.payment_method === "etransfer" ? "E-Transfer" : "Cash"}. View: ${adminLink}`;
     if (settingsRow.owner_phone_e164) {
       void sendSms({ to: settingsRow.owner_phone_e164, body });
     }

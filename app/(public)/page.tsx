@@ -69,7 +69,7 @@ export default async function HomePage() {
           >
             BRYCE WAGE
             <br />
-            <span className="text-red">MOTOCROSS</span>
+            <span className="text-red">MOTOCROSS TRAINING</span>
           </h1>
           <p className="mt-6 max-w-xl text-white/85 text-base sm:text-lg leading-relaxed">
             Limited drops of motocross-inspired apparel.

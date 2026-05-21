@@ -41,8 +41,8 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <p className="eyebrow text-red mb-2">Admin Access</p>
-          <h1 className="font-display font-bold text-white text-2xl tracking-tight">
-            BRYCE WAGE <span className="text-red">MOTOCROSS</span>
+          <h1 className="font-display font-bold text-white text-xl sm:text-2xl tracking-tight">
+            BRYCE WAGE <span className="text-red">MOTOCROSS TRAINING</span>
           </h1>
         </div>
         <Card>

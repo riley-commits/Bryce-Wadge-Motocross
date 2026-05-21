@@ -9,7 +9,7 @@ export type AdminSession = {
 
 export const sessionOptions: SessionOptions = {
   password: process.env.SESSION_SECRET || "dev-only-fallback-secret-do-not-use-in-prod-32+chars",
-  cookieName: "bwm_admin_session",
+  cookieName: "bwmt_admin_session",
   cookieOptions: {
     httpOnly: true,
     sameSite: "lax",

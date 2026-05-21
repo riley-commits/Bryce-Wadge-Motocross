@@ -28,7 +28,7 @@ export function ProductCard({ product }: { product: ProductWithRelations }) {
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-navy/30 font-display text-2xl">
-            BWM
+            BWMT
           </div>
         )}
       </div>

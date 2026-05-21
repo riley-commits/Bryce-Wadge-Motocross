@@ -15,7 +15,7 @@ export function ProductImageGallery({
   if (images.length === 0) {
     return (
       <div className="aspect-square rounded-md bg-cream flex items-center justify-center text-navy/30 font-display text-4xl">
-        BWM
+        BWMT
       </div>
     );
   }

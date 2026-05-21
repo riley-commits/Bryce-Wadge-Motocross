@@ -54,7 +54,7 @@ export default function CartPage() {
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={imgUrl} alt={line.product_name} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-navy/30 font-display">BWM</div>
+                      <div className="w-full h-full flex items-center justify-center text-navy/30 font-display">BWMT</div>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">

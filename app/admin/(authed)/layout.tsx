@@ -19,7 +19,7 @@ export default async function AuthedAdminLayout({
             href="/admin"
             className="font-display font-bold tracking-tight text-white"
           >
-            BWM <span className="text-red">ADMIN</span>
+            BWMT <span className="text-red">ADMIN</span>
           </Link>
           <nav className="flex items-center gap-1 text-xs eyebrow">
             <Link

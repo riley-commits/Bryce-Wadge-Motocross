@@ -1,9 +1,9 @@
-# Bryce Wage Motocross
+# Bryce Wage Motocross Training
 
 **Live:** <https://bryce-wage-motocross.vercel.app>
 **Admin:** <https://bryce-wage-motocross.vercel.app/admin/login>
 
-Pre-order interest platform for the Bryce Wage Motocross apparel brand. Customers
+Pre-order interest platform for the Bryce Wage Motocross Training apparel brand. Customers
 browse a small product catalog, add to cart, and "check out" to express interest.
 No real payments are processed — Bryce contacts each customer after the ordering
 window closes to arrange e-transfer or cash and to confirm delivery.
@@ -157,9 +157,11 @@ every order keeps its `batch_label` snapshot.
 
 ## Domain-level decisions worth knowing
 
-- **Order numbers** (`BWM-XXXX`) come from a Postgres sequence — no collisions
+- **Order numbers** (`BWMT-XXXX`) come from a Postgres sequence — no collisions
   under concurrent inserts, zero-padded to 4 digits, automatically rolls past
-  `BWM-9999` to `BWM-10000`.
+  `BWMT-9999` to `BWMT-10000`. The prefix was switched from `BWM` to `BWMT`
+  in migration `0002_rename_order_prefix.sql`; existing orders keep their
+  original prefix (only the column default for new inserts changes).
 - **`settings.owner_phone_e164` is NEVER readable by anon clients.** Public
   reads use the `public_settings()` SECURITY DEFINER RPC, which returns only
   safe fields (`ordering_open`, `ordering_window_label`, `etransfer_email`).

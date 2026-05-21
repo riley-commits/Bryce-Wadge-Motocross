@@ -63,7 +63,7 @@ export default async function AdminProductsPage() {
                             <img src={imgUrl} alt="" className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-navy/30 text-xs font-display">
-                              BWM
+                              BWMT
                             </div>
                           )}
                         </div>

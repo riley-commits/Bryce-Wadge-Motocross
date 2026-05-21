@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import type { CartLine } from "@/types";
 
-const STORAGE_KEY = "bwm_cart_v1";
+const STORAGE_KEY = "bwmt_cart_v1";
 
 function read(): CartLine[] {
   if (typeof window === "undefined") return [];
@@ -20,7 +20,7 @@ function read(): CartLine[] {
 
 function write(lines: CartLine[]) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
-  window.dispatchEvent(new CustomEvent("bwm-cart-change"));
+  window.dispatchEvent(new CustomEvent("bwmt-cart-change"));
 }
 
 function lineKey(l: Pick<CartLine, "product_id" | "size_label">) {
@@ -35,10 +35,10 @@ export function useCart() {
     setLines(read());
     setHydrated(true);
     const handler = () => setLines(read());
-    window.addEventListener("bwm-cart-change", handler);
+    window.addEventListener("bwmt-cart-change", handler);
     window.addEventListener("storage", handler);
     return () => {
-      window.removeEventListener("bwm-cart-change", handler);
+      window.removeEventListener("bwmt-cart-change", handler);
       window.removeEventListener("storage", handler);
     };
   }, []);
