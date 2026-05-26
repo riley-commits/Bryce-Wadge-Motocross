@@ -67,7 +67,7 @@ export default async function HomePage() {
             className="font-display font-bold text-white text-5xl sm:text-7xl leading-[0.95]"
             style={{ letterSpacing: "-0.02em", textShadow: "0 2px 24px rgba(11,27,43,0.45)" }}
           >
-            BRYCE WAGE
+            BRYCE WADGE
             <br />
             <span className="text-red">MOTOCROSS TRAINING</span>
           </h1>

@@ -16,9 +16,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Bryce Wage Motocross Training",
+  title: "Bryce Wadge Motocross Training",
   description:
-    "Pre-order interest platform for Bryce Wage Motocross Training apparel.",
+    "Pre-order interest platform for Bryce Wadge Motocross Training apparel.",
 };
 
 export default function RootLayout({

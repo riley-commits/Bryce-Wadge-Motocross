@@ -13,7 +13,7 @@ export function SiteHeader() {
             className="font-display font-bold text-white tracking-tight text-base sm:text-lg"
             style={{ letterSpacing: "-0.01em" }}
           >
-            BRYCE WAGE <span className="text-red">MOTOCROSS TRAINING</span>
+            BRYCE WADGE <span className="text-red">MOTOCROSS TRAINING</span>
           </span>
         </Link>
         <nav className="flex items-center gap-1 sm:gap-2">

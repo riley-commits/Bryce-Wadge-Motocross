@@ -1,4 +1,4 @@
--- Brand rename: "Bryce Wage Motocross" → "Bryce Wage Motocross Training".
+-- Brand rename: "Bryce Wadge Motocross" → "Bryce Wadge Motocross Training".
 -- The abbreviation embedded in order_number defaults changes from BWM- to BWMT-.
 --
 -- The underlying sequence (`order_number_seq`) is reused so numbering keeps

@@ -1,4 +1,4 @@
--- Bryce Wage Motocross — initial schema
+-- Bryce Wadge Motocross Training — initial schema
 -- Pre-order interest platform: catalog + interest-style "orders" + admin settings.
 
 create extension if not exists "pgcrypto";

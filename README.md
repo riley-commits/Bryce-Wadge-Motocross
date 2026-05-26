@@ -1,9 +1,9 @@
-# Bryce Wage Motocross Training
+# Bryce Wadge Motocross Training
 
 **Live:** <https://bryce-wage-motocross.vercel.app>
 **Admin:** <https://bryce-wage-motocross.vercel.app/admin/login>
 
-Pre-order interest platform for the Bryce Wage Motocross Training apparel brand. Customers
+Pre-order interest platform for the Bryce Wadge Motocross Training apparel brand. Customers
 browse a small product catalog, add to cart, and "check out" to express interest.
 No real payments are processed — Bryce contacts each customer after the ordering
 window closes to arrange e-transfer or cash and to confirm delivery.
