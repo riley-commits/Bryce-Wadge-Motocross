@@ -1,7 +1,7 @@
 # Bryce Wadge Motocross Training
 
-**Live:** <https://bryce-wage-motocross.vercel.app>
-**Admin:** <https://bryce-wage-motocross.vercel.app/admin/login>
+**Live:** <https://bryce-wadge-motocross-training.vercel.app>
+**Admin:** <https://bryce-wadge-motocross-training.vercel.app/admin/login>
 
 Pre-order interest platform for the Bryce Wadge Motocross Training apparel brand. Customers
 browse a small product catalog, add to cart, and "check out" to express interest.
@@ -58,7 +58,7 @@ scripts/hash-password.ts    CLI to generate ADMIN_PASSWORD_HASH
 
 ### 1. Supabase
 
-A Supabase project (`bryce-wage-motocross`, ref `kmldjzswzrpuvlbbowqe`, region
+A Supabase project (`bryce-wadge-motocross`, ref `kmldjzswzrpuvlbbowqe`, region
 `ca-central-1`) is already provisioned and the migration is applied. Get its
 keys from <https://supabase.com/dashboard/project/kmldjzswzrpuvlbbowqe/settings/api>:
 
